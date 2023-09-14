@@ -10,3 +10,5 @@ Golang Learning Journey
 - [Day 4](https://devahoy.com/learn-golang-day-4/)
 - [Day 5](https://devahoy.com/learn-golang-day-5/)
 - [Day 6](https://devahoy.com/learn-golang-day-6/)
+- [Day 7](https://devahoy.com/learn-golang-day-7/)
+- [Day 8](https://devahoy.com/learn-golang-day-8/)
