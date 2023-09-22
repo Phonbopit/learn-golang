@@ -2,6 +2,12 @@
 
 Learn how to use [chi](https://go-chi.io)
 
+## Start server
+
+```
+go run .
+```
+
 ## Installation
 
 ```
