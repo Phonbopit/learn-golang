@@ -30,6 +30,7 @@ func main() {
 	r.Post("/posts", CreateNewPost)
 	r.Get("/posts/{postID}", FindPostByID)
 	r.Get("/users", FindAllUsers)
+	r.Post("/users", CreateNewUser)
 	r.Get("/users/{userID}", FindUserByID)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
@@ -120,6 +121,29 @@ func FindAllUsers(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 	render.JSON(w, r, users)
+}
+
+func CreateNewUser(w http.ResponseWriter, r *http.Request) {
+	var user User
+	err := render.DecodeJSON(r.Body, &user)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("400 - Bad Request"))
+		return
+	}
+
+	query := "INSERT INTO `users` (`name`, `username`, `active`) VALUES (?, ?, ?)"
+	insertResult, err := DB.Exec(query, user.Name, user.Username, user.Active)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	fmt.Println("insertResult: ", insertResult)
+
+	// set status 201
+	render.Status(r, http.StatusCreated)
+	render.JSON(w, r, user)
 }
 
 func FindPostByID(w http.ResponseWriter, r *http.Request) {
