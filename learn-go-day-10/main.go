@@ -58,7 +58,7 @@ func FindAllPosts(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		var post Post
 
-		err := rows.Scan(&post.ID, &post.Title, &post.Body)
+		err := rows.Scan(&post.ID, &post.Title, &post.Body, &post.CreatedAt)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -128,7 +128,7 @@ func FindPostByID(w http.ResponseWriter, r *http.Request) {
 	var post Post
 
 	row := DB.QueryRow("SELECT * FROM posts WHERE id = ?", postID)
-	if err := row.Scan(&post.ID, &post.Title, &post.Body); err != nil {
+	if err := row.Scan(&post.ID, &post.Title, &post.Body, &post.CreatedAt); err != nil {
 		if err == sql.ErrNoRows {
 			render.JSON(w, r, Error{Message: fmt.Sprintf("PostID %s not found", postID)})
 			return
@@ -136,7 +136,7 @@ func FindPostByID(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	render.JSON(w, r, row)
+	render.JSON(w, r, post)
 }
 
 func FindUserByID(w http.ResponseWriter, r *http.Request) {
@@ -153,5 +153,5 @@ func FindUserByID(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	render.JSON(w, r, row)
+	render.JSON(w, r, user)
 }
